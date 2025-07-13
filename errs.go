@@ -2,10 +2,9 @@ package errs
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 )
-
-const defaultUnkown = "errs: unknown error"
 
 func write(n error, o error, c *Codex) *Format {
 	if c != nil {
@@ -49,7 +48,7 @@ func ChainCodex(err error, c *Codex) *Format {
 func PrintStack(err error) string {
 	p := parse(err)
 	if p == nil {
-		return defaultUnkown
+		return "unknown print stack"
 	}
 
 	if p.Prev != nil {
@@ -93,29 +92,16 @@ func parse(err error) *Format {
 	return parsed
 }
 
-// func NewCodex(code, title, detail string, status int) Codex {
-// 	return Codex{
-// 		Title:      title,
-// 		Detail:     detail,
-// 		HTTPStatus: status,
-// 		CustomCode: "#0001",
-// 	}
-// }
-
-// func ReturnCodex(err error, c Codex) Format {
-// 	return &Format{
-// 		prevError: err,
-// 		title:     c.Title,
-// 		original:  fmt.Errorf("error: %s", c.Detail),
-// 		trace:     getWithDept(2),
-// 		Codex:     c,
-// 	}
-// }
-
 func ParseCodex(err error) *Codex {
 	e := parse(err)
 	if e == nil {
-		return nil
+		return &Codex{
+			Title:      "Error unknown",
+			Detail:     "Codex unknown",
+			CustomCode: "U",
+			Status:     http.StatusInternalServerError,
+			Original:   err,
+		}
 	}
 
 	if e.Codex == nil && e.Prev != nil {
