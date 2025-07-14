@@ -8,6 +8,7 @@ func NewCodex(title, detail, customCode string, httpCode int) *Codex {
 		Detail:     detail,
 		CustomCode: customCode,
 		Status:     httpCode,
+		Original:   fmt.Errorf("%s, %s", title, detail),
 	}
 }
 
