@@ -1,6 +1,13 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [1.3.0](https://github.com/peruri-dev/errs/compare/v1.2.1...v1.3.0) (2025-08-19)
+
+
+### Features
+
+* bump go version 1.25 ([2adf201](https://github.com/peruri-dev/errs/commit/2adf2016482f64ad5bbbe23bf1bd45f7b7c461b9))
 
 ### [1.2.1](https://github.com/peruri-dev/errs/compare/v1.2.0...v1.2.1) (2025-07-14)
 
