@@ -1,3 +1,3 @@
 module github.com/peruri-dev/errs
 
-go 1.24.4
+go 1.25.0
