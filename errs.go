@@ -76,7 +76,6 @@ func PrintStackJson(err error) []stack {
 
 func parse(err error) (bool, *Format) {
 	parsed, ok := err.(*Format)
-	fmt.Println("parse?", parsed, ok)
 	if !ok {
 		return false, nil
 	}
