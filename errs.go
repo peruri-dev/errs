@@ -76,6 +76,7 @@ func PrintStackJson(err error) []stack {
 
 func parse(err error) (bool, *Format) {
 	parsed, ok := err.(*Format)
+	fmt.Println("parse?", parsed, ok)
 	if !ok {
 		return false, nil
 	}
@@ -84,20 +85,18 @@ func parse(err error) (bool, *Format) {
 }
 
 func ParseCodex(err error) *Codex {
+	defaultCodex := &Codex{
+		Title:      "Error unknown",
+		Detail:     err.Error(),
+		CustomCode: "Codex unknown",
+		Status:     http.StatusInternalServerError,
+		Original:   err,
+	}
+
 	valid, parsed := parse(err)
-	if !valid || parsed == nil {
-		return &Codex{
-			Title:      "Error unknown",
-			Detail:     "Codex unknown",
-			CustomCode: "U",
-			Status:     http.StatusInternalServerError,
-			Original:   err,
-		}
+	if valid && parsed.Codex.Status > 0 {
+		return parsed.Codex
 	}
 
-	if parsed.Prev != nil {
-		return ParseCodex(parsed.Prev)
-	}
-
-	return parsed.Codex
+	return defaultCodex
 }
