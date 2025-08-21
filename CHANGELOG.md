@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.4.2](https://github.com/peruri-dev/errs/compare/v1.4.1...v1.4.2) (2025-08-21)
+
+
+### Bug Fixes
+
+* remove fmt print ([3abfcc9](https://github.com/peruri-dev/errs/commit/3abfcc92faaf970a52984dbd2df1c1e213ea71f1))
+
 ## [1.4.1](https://github.com/peruri-dev/errs/compare/v1.4.0...v1.4.1) (2025-08-21)
 
 
