@@ -6,27 +6,18 @@ import (
 	"strings"
 )
 
-func write(n error, o error, c *Codex) *Format {
-	if c != nil {
-		return &Format{
-			Prev:     o,
-			Original: n,
-			Msg:      n.Error(),
-			Trace:    getWithDept(3),
-			Codex:    c,
-		}
-	}
-
+func write(newErr error, oldErr error, c *Codex) *Format {
 	return &Format{
-		Prev:     o,
-		Original: n,
-		Msg:      n.Error(),
+		Prev:     oldErr,
+		Original: newErr,
+		Msg:      newErr.Error(),
 		Trace:    getWithDept(3),
+		Codex:    c,
 	}
 }
 
 func New(str string) *Format {
-	return write(fmt.Errorf("%s", str), nil, nil)
+	return write(fmt.Errorf("%s", str), fmt.Errorf(""), &Codex{})
 }
 
 func Chain(err error, a ...any) *Format {
@@ -38,7 +29,7 @@ func Chain(err error, a ...any) *Format {
 		}
 	}
 
-	return write(fmt.Errorf("%s", s.String()), err, nil)
+	return write(fmt.Errorf("%s", s.String()), err, &Codex{})
 }
 
 func ChainCodex(err error, c *Codex) *Format {
@@ -46,8 +37,8 @@ func ChainCodex(err error, c *Codex) *Format {
 }
 
 func PrintStack(err error) string {
-	p := parse(err)
-	if p == nil {
+	yes, p := parse(err)
+	if !yes || p == nil {
 		return "unknown print stack"
 	}
 
@@ -66,7 +57,7 @@ type stack struct {
 func PrintStackJson(err error) []stack {
 	out := []stack{}
 
-	p := parse(err)
+	_, p := parse(err)
 	if p == nil {
 		return out
 	}
@@ -83,18 +74,18 @@ func PrintStackJson(err error) []stack {
 	return out
 }
 
-func parse(err error) *Format {
+func parse(err error) (bool, *Format) {
 	parsed, ok := err.(*Format)
 	if !ok {
-		return nil
+		return false, nil
 	}
 
-	return parsed
+	return true, parsed
 }
 
 func ParseCodex(err error) *Codex {
-	e := parse(err)
-	if e == nil {
+	valid, parsed := parse(err)
+	if !valid || parsed == nil {
 		return &Codex{
 			Title:      "Error unknown",
 			Detail:     "Codex unknown",
@@ -104,9 +95,9 @@ func ParseCodex(err error) *Codex {
 		}
 	}
 
-	if e.Codex == nil && e.Prev != nil {
-		return ParseCodex(e.Prev)
+	if parsed.Prev != nil {
+		return ParseCodex(parsed.Prev)
 	}
 
-	return e.Codex
+	return parsed.Codex
 }
