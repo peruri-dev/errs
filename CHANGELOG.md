@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.4.0](https://github.com/peruri-dev/errs/compare/v1.3.0...v1.4.0) (2025-08-21)
+
+
+### Features
+
+* silent panic called on write ([1dc1310](https://github.com/peruri-dev/errs/commit/1dc131077a2b52c0312e693b565ee617b9224189))
+
 ## [1.3.0](https://github.com/peruri-dev/errs/compare/v1.2.1...v1.3.0) (2025-08-19)
 
 
